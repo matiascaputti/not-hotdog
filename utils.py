@@ -41,6 +41,9 @@ def image_to_rgb(image):
     
     return image2
 
+    
+from skimage import exposure
+from skimage.color import rgb2grey
 
 def read_images_from_path(path, height, width):
     '''read images from path and return images array'''
@@ -49,7 +52,7 @@ def read_images_from_path(path, height, width):
     images_in_path = glob(path + '/*.*')
 
     # read image and resize images
-    images = [imresize(arr=imread(image_path), size=[height, width]) 
+    images = [exposure.equalize_hist(rgb2grey(imresize(arr=imread(image_path), size=[height, width]))) 
               for image_path in images_in_path]
     
     return images
